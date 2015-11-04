@@ -1,4 +1,5 @@
 from multiprocessing import Process, Queue
+from utils.logging import get_logger
 
 class Service(Process):
     """docstring for Service"""
@@ -6,6 +7,7 @@ class Service(Process):
         super(Service, self).__init__()
         self.queue = Queue()
         self.daemon = True
+        self.logger = get_logger(type(self).__name__)
 
     def run(self):
         while True:

@@ -6,11 +6,13 @@ from services.speech_recognition import SpeechRecognition
 from services.news_subscriptor import NewsSubscriptor
 from services.weather_subscriptor import WeatherSubscriptor
 from entities.message import Message
+from utils.logging import get_logger
 
 class CowBack(object):
     """docstring for CowBack"""
     def __init__(self):
         super(CowBack, self).__init__()
+        self.logger = get_logger(type(self).__name__)
         self.services = {}
         self.load_services()
 
@@ -23,7 +25,7 @@ class CowBack(object):
     def start_services(self):
         for (name, service) in self.services.items():
             service.start()
-            logging.info(name + " service started.")
+            self.logger.info(name + " service started.")
 
         [service.join() for service in self.services.values()]
 
@@ -32,7 +34,6 @@ class CowBack(object):
             service.terminate()
 
 if __name__ == '__main__':
-    logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.DEBUG)
     c = CowBack()
     # c.services['speech_recognition'].send(Message('Hello', 'World', '!'))
     c.start_services()

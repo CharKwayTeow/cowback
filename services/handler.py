@@ -6,4 +6,4 @@ class Handler(Service):
         super(Handler, self).__init__()
 
     def process(self, message):
-        print(message)
+        self.logger.debug(message)
