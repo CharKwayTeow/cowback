@@ -6,7 +6,4 @@ class MediaPlayer(Service):
         super(MediaPlayer, self).__init__()
 
     def run(self):
-        pass
-
-    def send(self, message):
-        pass
+        self.logger.info("MediaPlayer is running.")

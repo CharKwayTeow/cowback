@@ -35,7 +35,9 @@ class CowBack(object):
 
 if __name__ == '__main__':
     c = CowBack()
-    # c.services['speech_recognition'].send(Message('Hello', 'World', '!'))
+    # c.services['speech_recognition'].send(Message('mediaplayer', 'start', None))
+    # c.services['speech_recognition'].send(Message('news_reporter', 'start', None))
+    # c.services['speech_recognition'].send(Message('weather_reporter', 'start', None))
     c.start_services()
     sleep(1)
     # c.terminate_services()
