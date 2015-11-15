@@ -21,3 +21,11 @@ def insert_news(pubdate, title, content):
     c.execute(' INSERT INTO news VALUES (null, ?, ?, ?) ', (pubdate, title, content))
     db.commit()
     db.close()
+
+def clear_table(table_name):
+    db = sqlite3.connect('cowback.db')
+    c = db.cursor()
+    c.execute(" DELETE FROM " + table_name + " WHERE id > 0 ")
+    db.commit()
+    db.close()
+    print("clear_table done")
