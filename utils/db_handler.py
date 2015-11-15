@@ -25,7 +25,7 @@ def insert_news(pubdate, title, content):
 def clear_table(table_name):
     db = sqlite3.connect('cowback.db')
     c = db.cursor()
-    c.execute(" DELETE FROM " + table_name + " WHERE id > 0 ")
+    c.execute(" DELETE FROM " + table_name + " WHERE id >= 0 ")
     db.commit()
     db.close()
     print("clear_table done")
