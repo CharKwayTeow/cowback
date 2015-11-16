@@ -18,7 +18,7 @@ class NewsSubscriptor(Subscriptor):
         while True:
             self.crawl_news()
             # print(get_news())
-            sleep(10) # in seconds
+            sleep(600) # in seconds
 
     # Crawl News website and store into DB
     def crawl_news(self):
