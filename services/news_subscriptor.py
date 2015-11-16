@@ -1,5 +1,5 @@
 import logging
-import feedparser
+import feedparser # pip3 install feedparser
 from time import sleep
 from utils.db_handler import get_news
 from utils.db_handler import insert_news
