@@ -20,4 +20,4 @@ class WeatherSubscriptor(Subscriptor):
             content = " The temperature is " + key["yweather_condition"]["temp"] + " degrees F. This is weather " + key["title"] + "."
             # insert_weather(content)
             send("weather", randint(1000000,9999999)+".wav", content)
-        self.logger.info(("crawl_weather done.")
+        self.logger.info("crawl_weather done.")

@@ -18,4 +18,4 @@ class NewsSubscriptor(Subscriptor):
             # insert_news(key["published"],key["title"],key["description"])
             content = key["published"],key["title"],key["description"]
             send("news", randint(1000000,9999999)+".wav", content)
-        self.logger.info(("crawl_news done.")
+        self.logger.info("crawl_news done.")
