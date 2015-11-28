@@ -5,6 +5,7 @@ from services.handler import Handler
 from services.speech_recognition import SpeechRecognition
 from services.news_subscriptor import NewsSubscriptor
 from services.weather_subscriptor import WeatherSubscriptor
+from services.mediaplayer import MediaPlayer
 from entities.message import Message
 from utils.logging import get_logger, logging
 
@@ -17,7 +18,8 @@ class CowBack(object):
         self.load_services()
 
     def load_services(self):
-        self.services["handler"] = Handler()
+        self.services["mediaplayer"] = MediaPlayer()
+        self.services["handler"] = Handler(self.services["mediaplayer"])
         self.services["speech_recognition"] = SpeechRecognition(self.services["handler"])
         self.services["news_subscriptor"] = NewsSubscriptor()
         self.services["weather_subscriptor"] = WeatherSubscriptor()
