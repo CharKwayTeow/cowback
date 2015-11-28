@@ -40,5 +40,5 @@ class MediaPlayer(Service):
         file_list.insert(0, file_list.pop()) # move current song to the back of the list
         pygame.mixer.music.load(file_list[0])
         pygame.mixer.music.play()
-        print(len(file_list[0]))
-        print(file_list)
+        # print(len(file_list[0]))
+        # print(file_list)

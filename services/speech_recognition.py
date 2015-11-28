@@ -52,46 +52,31 @@ class SpeechRecognition(Service):
 
 
     def parse_command(self, voice_command):
-        print("Google Speech Recognition thinks you said " + voice_command)
-        self.send(Message('mediaplayer', 'start', None))
+        self.logger.info("Google Speech Recognition thinks you said " + voice_command)
+
         if any(stop in voice_command for stop in self.stopDict):
-            # if "alarm" or "alarms" in voice_command:
-            #     if "all" in voice_command:
-            #         self.send(Message('mediaplayer', 'start', None))
-            #         print "cancel all alarms"
-            #     else:
-            #         print "cancel time"
-            # else:
             self.send(Message('All', 'stop', None))
-            print ("stop reading or playing")
+            # self.send(Message('mediaplayer', 'start', None))
+            self.logger.info ("stop reading or playing")
         elif "play" and "music" in voice_command:
             # self.send(Message('All', 'stop', None))
             self.send(Message('mediaplayer', 'start', None))
-            print ("start playing music")
+            self.logger.info ("start playing music")
         elif "weather" in voice_command and any(ask in voice_command for ask in self.ask_dict):
             # self.send(Message('All', 'stop', None))
             self.send(Message('weather_reporter', 'start', None))
-            print ("today's weather")
-            # if "today" or "this" in voice_command:
-            #     print "today's weather"
-            # else:
-            #     print "next week weather list"
-        # elif "alarm" or "alarms" in voice_command:
-        #     if "set" in voice_command:
-        #         print "time"
-        #     else:
-        #         print "read all alarms"
+            self.logger.info ("today's weather")
         elif "news" in voice_command:
             # self.send(Message('All', 'stop', None))
             self.send(Message('news_reporter', 'start', None))
-            print ("start reading news")
+            self.logger.info ("start reading news")
             # if any(ask in voice_command for ask in self.ask_dict):
             #     print "read news"
             # else:
             #     print "Do u wanna today's news?"
 
         else:
-            print ("Sorry I don't understand")
+            self.logger.info ("Sorry I don't understand")
 
     def send(self, message):
         self.handler.receive(message)
