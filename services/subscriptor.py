@@ -1,11 +1,14 @@
+import hashlib
+from time import sleep
+import feedparser # pip3 install feedparser
 from services.service import Service
 from services.narrator import Narrator
 
 class Subscriptor(Service):
     """docstring for Subscriptor"""
-    def __init__(self):
+    def __init__(self, narrator):
         super(Subscriptor, self).__init__()
-        self.narrator = Narrator()
+        self.narrator = narrator
 
     def run(self):
         while True:
@@ -21,3 +24,6 @@ class Subscriptor(Service):
 
     def send(self, type, filename, content):
         self.narrator.receive((type, filename, content))
+
+    def _get_md5(self, content):
+        return hashlib.sha224(content.encode()).hexdigest()

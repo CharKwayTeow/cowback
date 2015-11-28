@@ -8,5 +8,8 @@ class Narrator(Service):
         super(Narrator, self).__init__()
 
     def process(self, feed):
-        tts = gTTS(text = feed[2], lang = 'en')
-        tts.save(feed[0] + '/' + feed[1])
+        try:
+            tts = gTTS(text = feed[2], lang = 'en')
+            tts.save('audio/' + feed[0] + '/' + feed[1])
+        except Exception as e:
+            self.logger.warn(e)
