@@ -1,4 +1,5 @@
-from gtts import gTTS
+import os
+import re
 from tempfile import TemporaryFile
 from services.service import Service
 
@@ -9,7 +10,11 @@ class Narrator(Service):
 
     def process(self, feed):
         try:
-            tts = gTTS(text = feed[2], lang = 'en')
-            tts.save('audio/' + feed[0] + '/' + feed[1])
+            content = re.compile("[\r?\n|\r']+").sub(',', feed[2])
+            self.logger.debug(content)
+            path = "audio/" + feed[0] + "/" + feed[1]
+            command = "espeak -s 120 -v en-us '" + content + "' -w " + path
+            os.system(command)
+            self.logger.debug("Wav file has been saved in path " + path + ".")
         except Exception as e:
             self.logger.warn(e)
