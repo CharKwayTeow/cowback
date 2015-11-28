@@ -11,30 +11,34 @@ class MediaPlayer(Service):
 
     def __init__(self):
         super(MediaPlayer, self).__init__()
-        self.option = "empty"
+        self.option = "stop"
         # self.song_number = 0
 
     def run(self):
         self.logger.info("MediaPlayer is running.")
-        while(True):
+        while True:
             file_list = self.build_file_list()
+            print (file_list)
             if (len(file_list) == 0):
                 self.logger.info("No music in local.")
-                self.option = "empty"
+                # self.option = "empty"
                 while not self.check_queue():
                     continue
             else:
                 self.play_songs(file_list)
 
     def build_file_list(self):
-        folder_path = "/audio/" + self.option
+        folder_path = "/Users/dy/Git/cs244/cowback/audio/" + self.option
+        print(folder_path)
         file_list = []
-        for root, folders, files in os.walk(self.folder_path):
+        for root, folders, files in os.walk(folder_path):
             folders.sort()
             files.sort()
             for filename in files:
-                if re.search(".(wav|flac|m4a|pls|m3u)$", filename) != None:
+                print(filename)
+                if re.search(".(wav|flac|m4a|pls|m3u)$", filename):
                     file_list.append(os.path.join(root, filename))
+
         return file_list
 
     def play_songs(self, file_list):
@@ -42,8 +46,9 @@ class MediaPlayer(Service):
         random.shuffle(file_list)
         while True:
             self.play_next_song(file_list)
-            while pygame.mixer.music.get_busy() == True:
+            while pygame.mixer.music.get_busy():
                 if self.check_queue():
+                    pygame.mixer.music.stop()
                     return
                 continue
 
@@ -55,8 +60,8 @@ class MediaPlayer(Service):
         # print(file_list)
 
     def check_queue(self):
-        sleep(100)
+        sleep(1)
         if not self.queue.empty():
-            command=self.queue.get()
+            self.option = self.queue.get()
             return True
         return False;
