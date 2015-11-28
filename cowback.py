@@ -6,7 +6,7 @@ from services.speech_recognition import SpeechRecognition
 from services.news_subscriptor import NewsSubscriptor
 from services.weather_subscriptor import WeatherSubscriptor
 from entities.message import Message
-from utils.logging import get_logger
+from utils.logging import get_logger, logging
 
 class CowBack(object):
     """docstring for CowBack"""
@@ -32,12 +32,13 @@ class CowBack(object):
     def terminate_services(self):
         for (name, service) in self.services.items():
             service.terminate()
+            self.logger.info(name + " service terminated.")
 
 if __name__ == '__main__':
     c = CowBack()
-    # c.services['speech_recognition'].send(Message('mediaplayer', 'start', None))
-    # c.services['speech_recognition'].send(Message('news_reporter', 'start', None))
-    # c.services['speech_recognition'].send(Message('weather_reporter', 'start', None))
-    c.start_services()
-    sleep(1)
-    # c.terminate_services()
+    try:
+        c.start_services()
+    except KeyboardInterrupt:
+        pass
+    finally:
+        c.terminate_services()

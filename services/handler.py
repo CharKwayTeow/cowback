@@ -36,3 +36,7 @@ class Handler(Service):
     def _stop_services(self):
         for name in self.services:
             self._stop_service(name)
+
+    def terminate(self):
+        self._stop_services()
+        return super(Handler, self).terminate()
