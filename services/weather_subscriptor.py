@@ -14,5 +14,5 @@ class WeatherSubscriptor(Subscriptor):
     def process(self, feed):
         for key in feed["entries"]: 
             content = " The temperature is " + key["yweather_condition"]["temp"] + " degrees F. This is weather " + key["title"] + "."
-            self.send("weather", self._get_md5(content)+".wav", content)
+            self.send("weather", "weather.wav", content)
         self.logger.info("crawl_weather done.")

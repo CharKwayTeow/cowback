@@ -16,14 +16,16 @@ class SpeechRecognition(Service):
     def _configure(self, r):
         r.pause_threshold = 0.5
         r.energy_threshold = 400
+        r.dynamic_energy_threshold = True
 
     def run(self):
         r = sr.Recognizer()
         self._configure(r)
         while True:
             with sr.Microphone() as source:
+                r.adjust_for_ambient_noise(source)
                 self.logger.info("Say something!")
-                r.record(source, duration=2, offset=0)
+                # r.record(source, duration=1, offset=0)
 
                 audio = r.listen(source)
                 self.logger.info("Start Processing!")
