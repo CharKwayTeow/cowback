@@ -60,7 +60,7 @@ class SpeechRecognition(Service):
             self.logger.info ("stop reading or playing")
         elif "play" and "music" in voice_command:
             # self.send(Message('All', 'stop', None))
-            self.send(Message('mediaplayer', 'start', None))
+            self.send(Message('music_player', 'start', None))
             self.logger.info ("start playing music")
         elif "weather" in voice_command and any(ask in voice_command for ask in self.ask_dict):
             # self.send(Message('All', 'stop', None))
