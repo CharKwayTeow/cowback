@@ -23,16 +23,10 @@ class SpeechRecognition(Service):
         while True:
             with sr.Microphone() as source:
                 self.logger.info("Say something!")
-                # print("Say something!")
                 r.record(source, duration=2, offset=0)
-                #        print(r.
 
                 audio = r.listen(source)
                 self.logger.info("Start Processing!")
-                # print("Start Processing!")
-                import time
-                start_time = time.time()
-
                 # recognize speech using Google Speech Recognition
             try:
                 # for testing purposes, we're just using the default API key
@@ -48,34 +42,22 @@ class SpeechRecognition(Service):
                 # print("Google Speech Recognition could not understand audio")
             except sr.RequestError as e:
                 self.logger.warn("Could not request results from Google Speech Recognition service; {0}".format(e))
-            end_time = time.time()
-            # self.logger.info("This Processing totally uses " + (end_time-start_time))
 
     def parse_command(self, voice_command):
         self.logger.info("Google Speech Recognition thinks you said " + voice_command)
 
         if any(stop in voice_command for stop in self.stopDict):
             self.send(Message('All', 'stop', None))
-            # self.send(Message('mediaplayer', 'start', None))
             self.logger.info("stop reading or playing")
         elif "play" and "music" in voice_command:
-            # self.send(Message('All', 'stop', None))
             self.send(Message('music_player', 'start', None))
             self.logger.info("start playing music")
         elif "weather" in voice_command:
-            # and any(ask in voice_command for ask in self.ask_dict):
-            # self.send(Message('All', 'stop', None))
             self.send(Message('weather_reporter', 'start', None))
             self.logger.info("today's weather")
         elif "news" in voice_command:
-            # self.send(Message('All', 'stop', None))
             self.send(Message('news_reporter', 'start', None))
             self.logger.info("start reading news")
-            # if any(ask in voice_command for ask in self.ask_dict):
-            #     print "read news"
-            # else:
-            #     print "Do u wanna today's news?"
-
         else:
             self.logger.info("Sorry I don't understand")
 
