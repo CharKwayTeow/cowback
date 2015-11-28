@@ -44,9 +44,7 @@ class MediaPlayer(Service):
         while True:
             self.play_next_song(file_list)
             while pygame.mixer.music.get_busy():
-                # self.logger.info("BEFORE CHECKE.")
                 if self.check_queue():
-                    self.logger.info("AFTER CHECKE.")
                     pygame.mixer.music.stop()
                     return
                 continue
