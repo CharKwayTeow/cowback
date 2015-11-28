@@ -3,25 +3,31 @@ import pygame
 import os
 import re
 import random
+from time import sleep
 
 
 class MediaPlayer(Service):
     """docstring for MediaPlayer"""
 
-    def __init__(self,option):
+    def __init__(self):
         super(MediaPlayer, self).__init__()
-
-        self.folder_path = "/audio/"+option
+        self.option = "empty"
         # self.song_number = 0
 
     def run(self):
         self.logger.info("MediaPlayer is running.")
-        file_list = self.build_file_list()
-        if(len(file_list)==0):
-            self.logger.info("No music in local.")
-        self.play_songs(file_list)
+        while(True):
+            file_list = self.build_file_list()
+            if (len(file_list) == 0):
+                self.logger.info("No music in local.")
+                self.option = "empty"
+                while not self.check_queue():
+                    continue
+            else:
+                self.play_songs(file_list)
 
     def build_file_list(self):
+        folder_path = "/audio/" + self.option
         file_list = []
         for root, folders, files in os.walk(self.folder_path):
             folders.sort()
@@ -37,11 +43,20 @@ class MediaPlayer(Service):
         while True:
             self.play_next_song(file_list)
             while pygame.mixer.music.get_busy() == True:
+                if self.check_queue():
+                    return
                 continue
 
-    def play_next_song(self,file_list):
-        file_list.insert(0, file_list.pop()) # move current song to the back of the list
+    def play_next_song(self, file_list):
+        file_list.insert(0, file_list.pop())  # move current song to the back of the list
         pygame.mixer.music.load(file_list[0])
         pygame.mixer.music.play()
         # print(len(file_list[0]))
         # print(file_list)
+
+    def check_queue(self):
+        sleep(100)
+        if not self.queue.empty():
+            command=self.queue.get()
+            return True
+        return False;
