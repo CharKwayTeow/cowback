@@ -17,7 +17,7 @@ class MediaPlayer(Service):
         self.logger.info("MediaPlayer is running.")
         while True:
             file_list = self.build_file_list()
-            print (file_list)
+            self.logger.debug(file_list)
             if len(file_list) == 0:
                 self.logger.info("No music in local.")
                 # self.option = "empty"
