@@ -16,7 +16,7 @@ class Subscriptor(Service):
         feed = feedparser.parse(self.rss)
         self.process(feed)
 
-    def process(self):
+    def process(self, feed):
         pass
 
     def send(self, type, filename, content):

@@ -10,20 +10,12 @@ class NewsSubscriptor(Subscriptor):
     """docstring for NewsSubscriptor"""
     def __init__(self):
         super(NewsSubscriptor, self).__init__()
-
-    def process(self, message):
-        logging.debug(message)
-
-    def run(self):
-        while True:
-            self.crawl_news()
-            # print(get_news())
-            sleep(600) # in seconds
+        self.rss = 'http://www.voanews.com/api/epiqq'
 
     # Crawl News website and store into DB
-    def crawl_news(self):
-        rss = 'http://www.voanews.com/api/epiqq'
-        feed = feedparser.parse(rss)
+    def process(self, feed):
         for key in feed["entries"]: 
-            insert_news(key["published"],key["title"],key["description"])
-        print("crawl_news done.")
+            # insert_news(key["published"],key["title"],key["description"])
+            content = key["published"],key["title"],key["description"]
+            send("news", randint(1000000,9999999)+".wav", content)
+        self.logger.info(("crawl_news done.")
