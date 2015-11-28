@@ -1,29 +1,15 @@
-import logging
-import feedparser # pip3 install feedparser
-from time import sleep
 from utils.db_handler import get_news
-from utils.db_handler import insert_news
 from services.service import Service
 from services.subscriptor import Subscriptor
 
 class NewsSubscriptor(Subscriptor):
     """docstring for NewsSubscriptor"""
-    def __init__(self):
-        super(NewsSubscriptor, self).__init__()
-
-    def process(self, message):
-        logging.debug(message)
-
-    def run(self):
-        while True:
-            self.crawl_news()
-            # print(get_news())
-            sleep(600) # in seconds
+    def __init__(self, narrator):
+        super(NewsSubscriptor, self).__init__(narrator)
+        self.rss = 'http://www.voanews.com/api/epiqq'
 
     # Crawl News website and store into DB
-    def crawl_news(self):
-        rss = 'http://www.voanews.com/api/epiqq'
-        feed = feedparser.parse(rss)
+    def process(self, feed):
         for key in feed["entries"]: 
-            insert_news(key["published"],key["title"],key["description"])
-        print("crawl_news done.")
+            self.send("news", self._get_md5(key["description"]) + ".wav", key["description"])
+        self.logger.info("crawl_news done.")
