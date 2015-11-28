@@ -8,14 +8,17 @@ import random
 class MediaPlayer(Service):
     """docstring for MediaPlayer"""
 
-    def __init__(self):
+    def __init__(self,option):
         super(MediaPlayer, self).__init__()
-        self.folder_path = "/Users/dy/Downloads/GEM"
+
+        self.folder_path = "/audio/"+option
         # self.song_number = 0
 
     def run(self):
         self.logger.info("MediaPlayer is running.")
         file_list = self.build_file_list()
+        if(len(file_list)==0):
+            self.logger.info("No music in local.")
         self.play_songs(file_list)
 
     def build_file_list(self):
